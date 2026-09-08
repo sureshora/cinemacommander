@@ -4,6 +4,7 @@ from pathlib import Path
 from datetime import datetime
 from fastapi import FastAPI
 from fastapi.responses import HTMLResponse,StreamingResponse
+from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel,Field
 from .execution import execute_production_brief
 from .greenlight import greenlight_engine_tool
@@ -13,6 +14,7 @@ from .parallel_search import ParallelSearchService
 from .risk import risk_engine_tool
 from .schedule import ConstraintType,ScheduleConstraint,build_schedule
 app=FastAPI(title="Cinema Commander",version="0.12.0",description="Live Gemini multi-agent production intelligence control tower")
+app.mount("/static",StaticFiles(directory=Path(__file__).parent/"static"),name="static")
 @app.get("/health")
 def health(): return {"status":"ok","project":"Cinema Commander","milestone":"HACK-CINE-012","ai_runtime":"Google ADK + Gemini","partner_runtime":"Parallel Search API","live_stream":"SSE"}
 @app.get("/",response_class=HTMLResponse)
