@@ -1,12 +1,10 @@
 # Cinema Commander
 
-## HACK-CINE-012 — Live Agent Experience
+**AI Production Control Tower for the Agentic Cinema hackathon.**
 
-Cinema Commander is a standalone Gemini + Google ADK multi-agent production intelligence control tower with real Parallel Search runtime integration.
+Cinema Commander is a standalone Gemini + Google ADK multi-agent system that researches real-world production constraints through Parallel Search, converts evidence into production intelligence, evaluates risk and schedule feasibility, and produces an auditable **GREENLIGHT, WARNING, or BLOCKED** decision.
 
-This milestone connects the polished Control Tower UI to the actual backend agent execution. Judges can press **RUN COMMAND** and watch real Google ADK execution events stream into the browser through Server-Sent Events (SSE).
-
-### Live workflow
+## Workflow
 
 ```text
 Director Brief
@@ -15,7 +13,7 @@ Google ADK SequentialAgent
       ↓
 Planning + Research (ParallelAgent)
       ↓
-Parallel Search
+Parallel Search API
       ↓
 Production Intelligence
       ↓
@@ -23,22 +21,68 @@ Risk + Schedule (ParallelAgent)
       ↓
 Greenlight Director
       ↓
-Live SSE stream
+Evidence / Execution Trace
       ↓
-Control Tower
+Live SSE Control Tower
 ```
 
-### Runtime stack
+## Why it is agentic
+
+The system uses specialized Gemini agents with explicit responsibilities rather than a single chatbot:
+
+- **Production Planner** — extracts operational constraints.
+- **Research Scout** — performs runtime research through Parallel Search.
+- **Production Intelligence** — structures evidence into cinema-specific findings.
+- **Risk Officer** — produces an evidence-linked risk register.
+- **Schedule Agent** — verifies timing and conflicts deterministically.
+- **Greenlight Director** — produces the final production decision.
+
+## Technology
 
 - Google Gemini
 - Google ADK
-- Google Cloud Agent Runtime compatibility
-- Parallel Search API
+- Google Cloud / Vertex AI compatibility
+- Parallel Search API (`parallel-web`)
+- Python 3.11+
 - FastAPI
-- Deterministic production intelligence, risk, schedule, and greenlight engines
-- Server-Sent Events for live browser execution state
+- Server-Sent Events (SSE)
+- Deterministic risk, schedule, intelligence, and greenlight engines
 
-### Live APIs
+## Quick start
+
+```bash
+python3.11 -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
+cp .env.example .env
+```
+
+Set these values in `.env`:
+
+```env
+GOOGLE_CLOUD_PROJECT=YOUR_PROJECT_ID
+GOOGLE_CLOUD_LOCATION=us-central1
+GOOGLE_GENAI_USE_VERTEXAI=TRUE
+GEMINI_MODEL=gemini-3.5-flash
+PARALLEL_API_KEY=YOUR_PARALLEL_API_KEY
+```
+
+Authenticate Google Cloud Application Default Credentials:
+
+```bash
+gcloud auth application-default login
+gcloud auth application-default set-quota-project YOUR_PROJECT_ID
+```
+
+Run locally:
+
+```bash
+uvicorn app.main:app --host 0.0.0.0 --port 8000
+```
+
+Open `http://localhost:8000`.
+
+## Live APIs
 
 - `POST /api/agent/run`
 - `GET /api/agent/stream/{execution_id}`
@@ -50,10 +94,10 @@ Control Tower
 - `POST /api/schedule/evaluate`
 - `POST /api/greenlight/decide`
 
-### Demo safety
+## Demo safety
 
-Published screenshots/video should use the fictional/mock production corpus. The hosted application may use genuine Parallel Search results at runtime in accordance with the organizer guidance.
+Published screenshots/video should use the fictional/mock production corpus. The hosted application may use genuine Parallel Search results at runtime in accordance with organizer guidance.
 
-### License
+## License
 
-MIT License
+MIT License. See `LICENSE`.
