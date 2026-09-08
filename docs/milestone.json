@@ -1,0 +1,15 @@
+{
+  "milestone": "HACK-CINE-012",
+  "name": "Live Agent Experience",
+  "status": "complete",
+  "features": [
+    "Real Google ADK execution connected to browser UI",
+    "Server-Sent Events execution stream",
+    "Live agent state transitions",
+    "Live commander log",
+    "Authoritative execution snapshot",
+    "Run status endpoint",
+    "Parallel Search runtime integration",
+    "Deterministic production intelligence, risk, schedule and greenlight engines"
+  ]
+}
