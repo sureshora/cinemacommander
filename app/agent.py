@@ -173,7 +173,9 @@ root_agent = SequentialAgent(
     ],
 )
 
-adk_app = AdkApp(
-    agent=root_agent,
-    enable_tracing=True,
-)
+# Keep application-level Evidence & Execution Trace enabled while disabling
+# Agent Platform OpenTelemetry tracing for this self-hosted web deployment.
+# The latter requires the Telemetry API/roles and was causing invalid_scope
+# credential-refresh failures during local execution. Current Google guidance
+# recommends environment-based telemetry configuration for Agent Runtime.
+adk_app = AdkApp(agent=root_agent)
